@@ -1,0 +1,6 @@
+le nom du dossier est : ahmed 
+aaaa
+bbbbb
+cccc
+fichier_journal.txt
+tttttttttt

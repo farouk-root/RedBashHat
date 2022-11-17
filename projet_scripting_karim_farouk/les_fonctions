@@ -1,0 +1,212 @@
+#!/bin/bash
+
+function show_usage() {
+	echo `basename $0` ': [-h][-T][-t][-n][-N][-d][-m][-s] Path :' `dirname $(realpath $0)`
+	
+}
+
+
+
+function display_help() {
+	while read p
+	do echo $p
+	done < help.txt
+}
+
+
+
+
+
+auteurs()
+{
+  echo "les auteurs sont : farouk chalghoumi / molka ghamem"
+  echo "version du code :1.0"
+}
+
+
+
+
+
+AfficheFile()
+{
+echo "donnez le nom de dossier"
+read fich
+    echo "le nom du dossier est : $fich " > fichier_journal.txt 
+
+
+
+    ls -l $fich | grep ^- | tr -s ' ' | cut -d ' ' -f 9 >> fichier_journal.txt
+
+
+
+}
+
+
+
+
+
+
+function AfficheDirectory() {
+echo "le nom de dossier est "
+read dossier
+    echo "le nom de dossier est : $dossier " > dossier_journal.txt
+
+
+
+    ls -l $dossier | grep ^d | tr -s ' ' | cut -d ' ' -f9 >> dossier_journal.txt
+
+}
+
+
+
+
+function NB() {
+echo "donnez le dossier"
+read dossier
+
+    echo "nombre de fichier" >> count.txt  
+
+
+    find $dossier -type f | wc -l >> count.txt
+ 
+
+ 
+find $dossier -type f | wc -l >> stat.txt
+
+
+    
+    echo "nombre de dossier" >> count.txt 
+
+
+
+
+
+
+    n=$(find $dossier -type d | wc -l)
+
+a=1 
+	s=$(($n-$a))
+ echo $s >> count.txt
+ echo $s >> stat.txt
+
+
+}
+
+
+
+
+
+function directoryUser() {
+echo "donner le nom du dossier"
+read arg2
+ ls -ld $arg2 | cut -d ' ' -f 3-4
+
+
+
+}
+
+
+
+
+
+
+function dateAcess() {  
+    echo "donner le nom du fichier"
+    read access
+    stat $access | grep Access | tail -n 1 >> date_journal.txt 
+}
+
+
+
+
+
+function dateModif() {
+    echo "donner le nom fichier"
+    read modif
+    stat $modif | grep Modify > modif_journal 
+}
+
+
+
+
+
+
+function plot() 
+{
+
+
+  
+gnuplot -persist <<-EOFMaker
+     set boxwidth 0.5
+     set style fill solid
+      
+    
+	 plot "stat.txt"
+
+
+EOFMaker
+
+
+}
+
+
+
+
+
+
+#hedha el menu mta3 l option -m
+text_menu()
+{
+ps3="choix :"
+select item in "-show_usage-" "-help-" "-AffichFile-" "-AfficheDirectory" "-NB-" "-DirectoryUser-" "-dateAccess-" "-dateModif-" "-stat-"
+do
+echo "vous avez choisis l'item $REPLY:$item"
+case $REPLY in
+ 
+1)
+echo "show_usage"
+show_usage
+;;
+2)
+echo "help"
+display_help
+;;
+3)
+echo "affichefile"
+AfficheFile
+echo "voir fichier_journal"
+;;
+4)
+AfficheDirectory
+echo "voir dossier_journal"
+;;
+5)
+NB
+echo "voir fichier count"
+;;
+6)
+echo "donnez nom du dossier"
+directoryUser
+;;
+7)
+dateAcess
+echo "voir fichier date_journal"
+;;
+8)
+dateModif
+echo "voir fichier midif_journal"
+;;
+9)
+plot
+;;
+*)
+echo "choix incorrect"
+exit 0
+;;
+esac
+done
+}
+
+
+
+

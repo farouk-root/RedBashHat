@@ -1,0 +1,11 @@
+###############
+# main_script #
+###############
+
+
+
+Options Disponibles :
+-h : Pour afficher le help détaillé à partir d’un fichier texte
+-g: Pour afficher un menu textuel et gérer les fonctionnalité de façon graphique
+-v: Pour afficher le nom des auteurs et version du code
+-m: Pour afficher un menu textuel
